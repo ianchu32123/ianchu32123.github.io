@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>樂透遊戲</title>
+  <link rel="stylesheet" type="text/css" href="mystyle.css">  
+  <script>
+    function generateRandomNumbers() {
+      var a = [];
+      while (a.length < 3) {
+        var randomNumber = Math.floor(Math.random() * 10) + 1;
+        if (!a.includes(randomNumber)) {
+          a.push(randomNumber);
+        }
+      }
+      return a;
+    }
+
+    function checkNumbers() {
+      var userInput = [];
+      for (var i = 1; i <= 3; i++) {
+        var input = parseInt(document.getElementById("number" + i).value);
+        if (isNaN(input) || input < 1 || input > 10) {
+          alert("請輸入數值 (1~10)!");
+          resetGame();
+          return;
+        }
+        if (userInput.includes(input)) {
+          alert("輸入了重複的數字!");
+          resetGame();
+          return;
+        }
+        userInput.push(input);
+      }
+
+      var randomNumbers = generateRandomNumbers();
+      var matches = 0;
+      for (var j = 0; j < 3; j++) {
+        if (userInput.includes(randomNumbers[j])) {
+          matches++;
+        }
+      }
+
+      var message = "沒中獎！";
+      if (matches === 3) {
+        message = "中了頭獎！";
+      } else if (matches === 2) {
+        message = "中了貳獎！";
+      } else if (matches === 1) {
+        message = "中了參獎！";
+      }
+
+      var money = [0, 500, 300, 200]; // 獎金金額
+      var prize = ["未中獎", "頭獎", "貳獎", "參獎"]; // 獎項
+      var result = document.getElementById("result");
+      result.innerHTML = message;
+      if (matches > 0) {
+        var prizenumber = 4 - matches;
+        result.innerHTML += "<br>獲得" + prize[prizenumber] + "，獎金：" + money[prizenumber] + "元";
+      }
+    }
+
+    function reset() {
+      for (var i = 1; i <= 3; i++) {
+        document.getElementById("number" + i).value = "";
+      }
+      document.getElementById("result").innerHTML = "";
+    }
+  </script>
+</head>
+<body>
+  <h1 class="line1">樂透遊戲</h1>
+  <p id="c1">歡迎參加樂透遊戲</p>
+  <p class="line2">遊戲規則:請在下方輸入三個不重複的數字(1~10)，然後按下「開獎」按鈕。</p>
+  <img src="樂透.png" alt="good" class="style1">
+  <br>
+  <input type="number" id="number1" placeholder="輸入號碼1">
+  <input type="number" id="number2" placeholder="輸入號碼2">
+  <input type="number" id="number3" placeholder="輸入號碼3">
+  <br><br>
+  <button onclick="checkNumbers()">開始抽獎</button>
+  <button onclick="reset()">重新開始</button>
+  <br><br>
+  <div id="result"></div>
+  <ul>
+    <li><a href="https://github.com/ianchu32123/ianchu32123.github.io/blob/main/README.md" target="_blank">github網址</a></li>
+  </ul>
+</body>
+</html>
+
+
+
+
+
+
